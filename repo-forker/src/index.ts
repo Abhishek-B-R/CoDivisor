@@ -3,11 +3,14 @@ import cors from 'cors'
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 
-app.get("/",(req,res)=>{
-    res.json({
-        msg:"hi there"
-    })
+app.post("/fork",(req,res)=>{
+    const { repoUrl } = req.body
+    if (!repoUrl) {
+        return res.status(400).json({ error: "Repository URL is required" })
+    }
+    
 })
 
 app.listen(8080)
