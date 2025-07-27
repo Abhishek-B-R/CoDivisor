@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import { useSession } from "next-auth/react"
@@ -29,8 +30,6 @@ export default function Repositories() {
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
-  // Remove this line:
-  // const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -42,7 +41,6 @@ export default function Repositories() {
     if (session?.accessToken) {
       fetchRepositories()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])
 
   const fetchRepositories = async () => {
@@ -72,10 +70,9 @@ export default function Repositories() {
     }
   }
 
-  // Update the handleSelectRepo function to remove the setSelectedRepo call:
   const handleSelectRepo = (repo: Repository) => {
     router.push(
-      `/llm-selection?repo=${encodeURIComponent(repo.full_name)}&repoUrl=${encodeURIComponent(repo.html_url)}`,
+      `/llm-selection?repo=${encodeURIComponent(repo.full_name)}&repoUrl=${encodeURIComponent(repo.html_url)}&repoId=${repo.id}`,
     )
   }
 

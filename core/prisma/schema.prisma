@@ -47,7 +47,7 @@ model Analysis {
   id             String     @id @default(cuid())
   createdAt      DateTime   @default(now())
   llmUsed        LLM        // "OPENAI" or "GEMINI"
-  analysisType   String     // e.g., "README", "SECURITY", "CODE_QUALITY"
+  analysisType   String     // e.g., "CODE_COMMENTING", "CODE_QUALITY"
   inputPath      String?    // optional: path or file analyzed
   summary        String     // LLM output text
   rating         Int?       // optional: 1-5 or 1-10
