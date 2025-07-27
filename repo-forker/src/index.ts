@@ -16,6 +16,11 @@ app.post('/fork', async (req, res) => {
     }
 
     try {
+        // TODO: Handle private repositories
+        // In future, accept user's GitHub token securely (via DB or encrypted session)
+        // Never send token directly from frontend to backend
+        // Use the token to fork/clone private repos using Octokit & simple-git auth
+
         await forkRepository(`https://github.com/${username}/${reponame}`)
         const exists = await checkIfRepositoryExists(`https://github.com/CoDivisor/${reponame}`)
         if (!exists) {
