@@ -29,7 +29,8 @@ export default function Repositories() {
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null)
+  // Remove this line:
+  // const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -46,12 +47,22 @@ export default function Repositories() {
 
   const fetchRepositories = async () => {
     try {
+      if (!session?.accessToken) {
+        console.error("No access token available")
+        return
+      }
+
       const response = await fetch("https://api.github.com/user/repos?per_page=100&sort=updated", {
         headers: {
-          Authorization: `token ${session?.accessToken}`,
+          Authorization: `Bearer ${session.accessToken}`,
           Accept: "application/vnd.github.v3+json",
         },
       })
+
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`)
+      }
+
       const repos = await response.json()
       setRepositories(repos)
     } catch (error) {
@@ -61,8 +72,8 @@ export default function Repositories() {
     }
   }
 
+  // Update the handleSelectRepo function to remove the setSelectedRepo call:
   const handleSelectRepo = (repo: Repository) => {
-    setSelectedRepo(repo)
     router.push(
       `/llm-selection?repo=${encodeURIComponent(repo.full_name)}&repoUrl=${encodeURIComponent(repo.html_url)}`,
     )
@@ -106,8 +117,7 @@ export default function Repositories() {
           <Input
             placeholder="Search repositories..."
             value={searchTerm}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onChange={(e:any) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
           />
         </div>

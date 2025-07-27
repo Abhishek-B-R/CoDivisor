@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String       @id @default(cuid())
+  name            String
+  github_id       Int          @unique
+  github_username String?      @unique
+  email           String       @unique
+  avatar          String?
+  accessToken     String?      @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  repositories    Repository[]
+}
+
+model Repository {
+  id             String     @id @default(cuid())
+  name           String
+  full_name      String     // e.g., abhi/codivisor
+  github_repo_id Int        @unique
+  url            String
+  private        Boolean    @default(false)
+  userId         String
+  user           User       @relation(fields: [userId], references: [id])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  analysis       Analysis[]
+}
+
+model Analysis {
+  id             String     @id @default(cuid())
+  createdAt      DateTime   @default(now())
+  llmUsed        LLM        // "OPENAI" or "GEMINI"
+  analysisType   String     // e.g., "README", "SECURITY", "CODE_QUALITY"
+  inputPath      String?    // optional: path or file analyzed
+  summary        String     // LLM output text
+  rating         Int?       // optional: 1-5 or 1-10
+  repositoryId   String
+  repository     Repository @relation(fields: [repositoryId], references: [id])
+}
+
+enum LLM {
+  OPENAI
+  GEMINI
+}

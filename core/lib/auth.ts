@@ -122,7 +122,6 @@ export const authOptions: NextAuthOptions = {
           github_id: db_data.github_id || 0,
           accessToken: db_data.access_token,
           avatar: db_data.avatar_url ?? "",
-          bio: db_data.bio ?? "",
           email: db_data.email,
           name: db_data.name,
           github_username: db_data.username,
@@ -130,7 +129,6 @@ export const authOptions: NextAuthOptions = {
         update: {
           accessToken: db_data.access_token,
           avatar: db_data.avatar_url,
-          bio: db_data.bio,
           email: db_data.email,
           name: db_data.name,
           github_username: db_data.username,
