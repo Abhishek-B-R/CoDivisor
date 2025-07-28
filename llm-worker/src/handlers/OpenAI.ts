@@ -11,7 +11,7 @@ export async function handleOpenAIStream(projectPath: string, ws: WebSocket) {
 
     for (const file of files) {
         const stream = await openai.chat.completions.create({
-            model: 'gpt-4',
+            model: 'gpt-3.5-turbo',
             stream: true,
             messages: [
                 {
