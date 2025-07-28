@@ -71,11 +71,12 @@ export async function POST(request: NextRequest) {
         reponame,
         id: repoId,
         accessToken: session.accessToken,
+        isPrivate: repository.private,
         // Additional data for internal use
-        llm,
-        analysisType,
-        inputPath,
-        analysisId: analysis.id,
+        // llm,
+        // analysisType,
+        // inputPath,
+        // analysisId: analysis.id,
       }),
     })
 
