@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         username,
         reponame,
-        id: repoId,
+        id: `${repoId}`,
         accessToken: session.accessToken,
         isPrivate: repository.private,
         // Additional data for internal use

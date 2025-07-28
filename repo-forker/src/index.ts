@@ -27,7 +27,7 @@ app.post('/fork', async (req, res) => {
         if (!exists) {
             setTimeout(() => {}, 5000) // Wait for the fork to be created
         }
-        const outputPath = path.join(__dirname, '..', 'output', id)
+        const outputPath = path.join(__dirname, '..','..', 'output', id)
         await cloneRepository(`https://github.com/CoDivisor/${reponame}`, outputPath, 'main')
 
         publisher.lPush('llm-queue', id)
