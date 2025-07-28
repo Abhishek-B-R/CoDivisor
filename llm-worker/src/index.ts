@@ -2,8 +2,7 @@ import { subscriber } from './redis'
 import { sendToClient } from './ws'
 
 interface LLMJob {
-    provider: 'openai' | 'gemini'
-    prompt: string
+    provider: 'openai' | 'gemini',
     id: string
 }
 
@@ -18,7 +17,7 @@ async function main() {
 
             const data: LLMJob = JSON.parse(raw)
 
-            if (!data.prompt || !data.provider || !data.id) {
+            if (!data.provider || !data.id) {
                 console.error('Invalid LLM job payload:', data)
                 continue
             }

@@ -22,11 +22,10 @@ wss.on('connection', (ws) => {
 
 interface LLMJob {
     provider: 'openai' | 'gemini'
-    prompt: string
     id: string
 }
 
-export function sendToClient({ provider, prompt, id }: LLMJob) {
+export function sendToClient({ provider, id }: LLMJob) {
     const ws = clients.get(id)
 
     if (!ws || ws.readyState !== ws.OPEN) {
@@ -36,10 +35,10 @@ export function sendToClient({ provider, prompt, id }: LLMJob) {
 
     switch (provider) {
         case 'openai':
-            handleOpenAIStream(prompt, ws)
+            handleOpenAIStream(`../output/${id}`, ws)
             break
         case 'gemini':
-            handleGeminiStream(prompt, ws)
+            handleGeminiStream(`../output/${id}`, ws)
             break
         default:
             ws.send('❌ Unknown LLM provider')
