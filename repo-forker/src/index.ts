@@ -10,9 +10,10 @@ app.use(cors())
 app.use(express.json())
 
 app.post('/fork', async (req, res) => {
-    const { username, reponame, id } = req.body
-    if (!reponame || !username || !id) {
-        return res.status(400).json({ error: 'Repository name, username, and ID are required' })
+    // TODO: Handle private repo forking
+    const { username, reponame, id, accessToken, isPrivate } = req.body
+    if (!reponame || !username || !id || !accessToken || isPrivate === undefined) {
+        return res.status(400).json({ error: 'Repository name, username, ID, access token, and visibility are required' })
     }
 
     try {
